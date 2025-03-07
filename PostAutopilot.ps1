@@ -10,7 +10,6 @@ This script is created to Automate the client machines completing autopilot to a
 
 AUTHOR
 Bindusar Kushwaha
-bikush@Microsoft.com
 
 Version 1.8
 
