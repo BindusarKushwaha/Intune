@@ -4,31 +4,7 @@ This Sample Code is provided for the purpose of illustration only and is not int
 "This sample script is not supported under any Microsoft standard support program or service. The #sample script is provided AS IS without warranty of any kind. Microsoft further disclaims all implied #warranties including, without limitation, any implied warranties of merchantability or of fitness for a #particular purpose. The entire risk arising out of the use or performance of the sample scripts and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in #the creation, production, or delivery of the scripts be liable for any damages whatsoever (including, #without limitation, damages for loss of business profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the sample scripts or #documentation, even if Microsoft has been advised of the possibility of such damages" 
 DISCLAIMER ENDS 
 #>
-<#
-21-Sep-2021 Adrian 
-            added code to suppress output in folder creation
-            added code to protect deleting the right cert as is causing machine stall if VPN is in use
-            added -ErrorAction SilentlyContinue where action can fail
-            added Exit on detele error
-            cleared error before try
-24-Sep-2021 Adrian
-            added script name in log
-24-Sep-2021 Adrian
-            added severity to messages
-27-Sep-2021 Adrian
-            added log on exit point
-28-Sep-2012 Adrian
-            added $scriptExitCode
-29-Sep-2021 Adrian
-            added info about current user
-07-Oct-2021 Adrian
-            added info about hostname
-08-Oct-2021 Adrian
-            export certs before delete
-04-Jan-2022 Adrian
-            Ping Active Directory Certificate Services Request interface
-            protected for real user name
-#>
+
 Function Write-Host()
 {
     <#
@@ -50,8 +26,15 @@ Function Write-Host()
          [string]$component="DeleteMachineCert"
          )
 
-         $logdir="C:\colt\Logs"        If(!(Test-Path $logdir))        {            $null = New-Item -Path $logdir -ItemType Directory -Force -ErrorAction SilentlyContinue        }
-                $StartTime = Get-Date -Format "dd-MM-yyyy"        [String]$Path = "$Logdir\Autopilot_Custom_$StartTime.log"
+         $logdir="C:\colt\Logs"
+
+        If(!(Test-Path $logdir))
+        {
+            $null = New-Item -Path $logdir -ItemType Directory -Force -ErrorAction SilentlyContinue
+        }
+        
+        $StartTime = Get-Date -Format "dd-MM-yyyy"
+        [String]$Path = "$Logdir\Autopilot_Custom_$StartTime.log"
         
         $today=Get-Date -Format yyyyMMdd-HH
         $TimeZoneBias = Get-CimInstance -Query "Select Bias from Win32_TimeZone"
